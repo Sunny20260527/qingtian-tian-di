@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>晴天的小天地</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        .top-nav {
+            background-color: #e6162d;
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .nav-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 15px;
+        }
+        body {
+            background-color: #f4f5f7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 70% 28%;
+            gap: 2%;
+        }
+        .feed-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .feed-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #ffb6c1;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .time {
+            font-size: 12px;
+            color: #999;
+            margin-left: 10px;
+        }
+        .feed-text {
+            line-height: 1.7;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .feed-btn {
+            display: flex;
+            gap: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        .right-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 70px;
+        }
+        .right-title {
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .right-info p {
+            font-size: 14px;
+            color: #555;
+            margin: 8px 0;
+        }
+        .music-box {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        audio {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <div class="nav-title">晴天的小天地</div>
+        <div class="nav-menu">
+            <a href="#">首页</a>
+            <a href="#">动态</a>
+            <a href="#">收藏</a>
+            <a href="#">关于我</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="left">
+            <div class="feed-box">
+                <div class="feed-header">
+                    <div class="avatar">晴</div>
+                    <span class="name">晴天</span>
+                    <span class="time">刚刚</span>
+                </div>
+                <div class="feed-text">
+                    欢迎来到我的小天地✨<br>
+                    这里是属于我的小小世界，<br>
+                    背景音乐是《一生所爱》，温柔又治愈～<br>
+                    愿所有美好都如期而至。
+                </div>
+                <div class="feed-btn">
+                    <span>👍 点赞</span>
+                    <span>💬 评论</span>
+                    <span>↗️ 分享</span>
+                </div>
+            </div>
+            <div class="feed-box">
+                <div class="feed-header">
+                    <div class="avatar">晴</div>
+                    <span class="name">晴天</span>
+                    <span class="time">今天</span>
+                </div>
+                <div class="feed-text">
+                    喜欢简单干净的生活，<br>
+                    像微博一样，记录日常，留下温柔。
+                </div>
+                <div class="feed-btn">
+                    <span>👍 点赞</span>
+                    <span>💬 评论</span>
+                    <span>↗️ 分享</span>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="right-box">
+                <div class="right-title">个人主页</div>
+                <div class="right-info">
+                    <p>昵称：晴天</p>
+                    <p>主页：晴天的小天地</p>
+                    <p>风格：微博简约风</p>
+                    <p>背景音乐：一生所爱</p>
+                    <p>状态：保持开心✨</p>
+                </div>
+                <div class="music-box">
+                    <p>🎵 背景音乐：一生所爱</p>
+                    <audio controls autoplay loop>
+                        <source src="https://music.163.com/song/media/outer/url?id=208378.mp3" type="audio/mpeg">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
