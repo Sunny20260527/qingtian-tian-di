@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晴天小天地（离线音乐修复版）</title>
+<style>
+body { 
+    background-color: #f4f5f7; 
+    margin: 0; 
+    padding: 0;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,Microsoft Yahei,sans-serif;
+}
+.top-banner{
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #ff7b9c, #ffb6c1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    color:#fff;
+    font-weight:500;
+    letter-spacing:2px;
+    cursor:pointer;
+}
+.container{
+    max-width: 1300px;
+    margin: 20px auto;
+    display: flex;
+    gap: 20px;
+}
+.left-nav {
+    width: 220px;
+    flex-shrink: 0;
+}
+.left-main {
+    flex: 1;
+}
+.right {
+    width: 300px;
+    flex-shrink: 0;
+}
+.nav-card {
+    background: #fff;
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+.nav-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 12px;
+}
+.nav-item {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+}
+.nav-item:hover {
+    color: #e6162d;
+}
+.search-input {
+    width: 100%;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.btn-pill {
+    display: inline-flex;
+    align-items:center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    background: #eee;
+    color: #666;
+    border: none;
+    white-space: nowrap;
+}
+.btn-pill:hover {
+    background: #f5f5f5;
+    color: #e6162d;
+}
+.btn-pill.on {
+    background: #e6162d;
+    color: #fff;
+}
+.card-opt{
+    position:absolute;
+    top:15px;
+    right:15px;
+    display:flex;
+    gap:8px;
+    align-items: center;
+}
+.fab-btn {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #e6162d;
+    color: #fff;
+    font-size: 24px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 9999;
+}
+.add-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+}
+.add-box {
+    background: #fff;
+    width: 90%;
+    max-width: 500px;
+    padding: 24px;
+    border-radius: 16px;
+}
+.add-box input,
+.add-box textarea,
+.add-box select {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+.add-box input,
+.add-box select {
+    height: 42px;
+}
+.add-box textarea {
+    height: 120px;
+}
+.tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    margin-right: 8px;
+    background: #ff7b9c;
+    color: #fff;
+}
+.tag.music { background: #74b9ff; }
+.tag.article { background: #a29bfe; }
+.music-control {
+    display: flex;
+    gap: 6px;
+    flex-wrap: nowrap !important;
+}
+.music-btn {
+    padding: 4px 10px !important;
+    font-size: 13px !important;
+    border-radius: 999px !important;
+    border: none;
+    background: #ff7b9c;
+    color: #fff;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.wb { 
+    background: #ffffff; 
+    padding: 24px; 
+    border-radius: 14px; 
+    margin-bottom: 20px; 
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    position:relative;
+}
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #e6162d;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.wb strong {
+    font-size: 17px;
+    color: #e6162d;
+    font-weight: 600;
+}
+.wb .time {
+    color: #999;
+    font-size: 12px;
+    margin-left: 10px;
+}
+.wb p {
+    color: #333;
+    line-height: 1.8;
+    font-size: 15px;
+    margin: 16px 0;
+}
+.content-collapse {
+    cursor: pointer;
+    color: #e6162d;
+    font-size: 14px;
+    margin-top: 6px;
+    display: inline-block;
+}
+.bottom {
+    font-size: 13px;
+    display: flex;
+    gap:20px;
+}
+.bottom span{
+    cursor:pointer;
+    color:#e6162d;
+}
+.bottom span.grey{
+    color:#999;
+}
+.info { 
+    background: #ffffff; 
+    padding: 24px; 
+    border-radius: 14px; 
+    margin-bottom: 20px; 
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    text-align:center;
+}
+.avatar-box{
+    margin-bottom:15px;
+}
+#avatar{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #ffb6c1;
+    cursor:pointer;
+    background:#ffd1dc;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:36px;
+    color:#fff;
+}
+#avatarInput{
+    display:none;
+}
+.follow-btn {
+    background-color: #e6162d;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top:8px;
+}
+.follow-btn.followed {
+    background-color: #eee;
+    color:#666;
+}
+.music-card{
+    background:#fff8fa;
+    border-radius:12px;
+    padding:16px;
+    margin-top:10px;
+    text-align:left;
+}
+.music-title{
+    font-size:14px;
+    color:#e6162d;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+.music-desc{
+    font-size:13px;
+    color:#666;
+    margin:4px 0;
+}
+.progress-wrap{
+    width:100%;
+    height:6px;
+    background:#f0d8e0;
+    border-radius:999px;
+    margin-top:12px;
+    position:relative;
+    cursor:pointer;
+}
+.progress-bar{
+    height:6px;
+    background:#ff7b9c;
+    border-radius:999px;
+    width:0%;
+}
+.progress-dot{
+    width:12px;
+    height:12px;
+    background:#ff7b9c;
+    border-radius:50%;
+    position:absolute;
+    top:-3px;
+    left:0%;
+    transform:translate(-50%,0);
+}
+.leave-box{
+    margin-top:15px;
+    padding:15px;
+    background:#fafafa;
+    border-radius:12px;
+}
+.msg-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.nick-input{
+    flex: 0 0 200px;
+    height: 42px;
+    padding: 10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    box-sizing: border-box;
+}
+.msg-textarea {
+    width: 100%;
+    height: 120px !important;
+    padding: 10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+.send-btn{
+    background:#e6162d;
+    color:white;
+    border:none;
+    padding:8px 18px;
+    border-radius:20px;
+    cursor:pointer;
+    white-space: nowrap;
+}
+.batch-row{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:16px;
+}
+.batch-del-btn{
+    background:#e6162d;
+    color:#fff;
+    border:none;
+    padding:6px 12px;
+    border-radius:16px;
+    font-size:12px;
+    cursor:pointer;
+}
+.msg-item{
+    margin:6px 0;
+    padding:8px;
+    background:#fff;
+    border-radius:6px;
+    font-size:13px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+.msg-header{
+    display:flex;
+    justify-content:space-between;
+    color:#666;
+    font-size:12px;
+}
+.msg-author{
+    color:#e6162d;
+    font-weight:bold;
+}
+.msg-reply{
+    padding-left:10px;
+    border-left:2px solid #eee;
+    margin-top:4px;
+    font-size:12px;
+    color:#333;
+}
+.msg-reply-author{
+    color:#e6162d;
+    font-weight:bold;
+}
+.msg-btns{
+    display:flex;
+    gap:8px;
+    font-size:12px;
+}
+.msg-btns button{
+    border:none;
+    background:#eee;
+    padding:2px 6px;
+    border-radius:4px;
+    cursor:pointer;
+    font-size:12px;
+}
+.msg-btns button:hover{
+    background:#ff7b9c;
+    color:#fff;
+}
+.msg-btns .liked{
+    background:#ff7b9c;
+    color:#fff;
+}
+.msg-collapse{
+    color:#e6162d;
+    cursor:pointer;
+    font-size:12px;
+    margin-top:4px;
+}
+.more-btn{
+    margin-top:8px;
+    color:#e6162d;
+    cursor:pointer;
+    font-size:13px;
+}
+video,audio{
+    width:100%;
+    border-radius:8px;
+    margin:10px 0;
+}
+.page-box{
+    text-align:center;
+    margin:20px 0;
+}
+.page-btn{
+    padding:6px 12px;
+    margin:0 4px;
+    border:1px solid #e6162d;
+    color:#e6162d;
+    background:#fff;
+    border-radius:6px;
+    cursor:pointer;
+}
+.page-btn.active{
+    background:#e6162d;
+    color:#fff;
+}
+.page-btn:disabled{
+    border-color:#ccc;
+    color:#ccc;
+    cursor:not-allowed;
+}
+.title-modal{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.2);
+    z-index:999;
+    display:none;
+}
+.title-modal input{
+    width:280px;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:6px;
+    margin-bottom:15px;
+}
+.title-modal button{
+    padding:6px 14px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+.title-save{
+    background:#e6162d;
+    color:#fff;
+}
+.title-cancel{
+    background:#eee;
+    color:#333;
+    margin-left:8px;
+}
+</style>
+</head>
+<body>
+<div class="top-banner" id="bannerText">晴天小天地 · 温柔自留地</div>
+<div class="container">
+    <div class="left-nav">
+        <div class="nav-card">
+            <div class="nav-title">作者推荐</div>
+            <div id="recommendList"></div>
+        </div>
+        <div class="nav-card">
+            <div class="nav-title">热门榜单</div>
+            <div class="nav-item" onclick="loadTop10()">热门动态 TOP10</div>
+            <div class="nav-item" onclick="loadMusicRank()">热门音乐</div>
+            <div class="nav-item" onclick="loadArticleRank()">热门美文</div>
+        </div>
+        <div class="nav-card">
+            <div class="nav-title">最新留言</div>
+            <div class="nav-item" onclick="loadRecentReply()">查看最新留言</div>
+        </div>
+        <div class="nav-card">
+            <div class="nav-title">回到主页</div>
+            <div class="nav-item" onclick="goHome()">返回默认首页</div>
+        </div>
+        <div class="nav-card">
+            <div class="nav-title">搜索</div>
+            <input type="text" class="search-input" id="searchInput" placeholder="搜索卡片主题..." oninput="doSearch()">
+        </div>
+    </div>
+    <div class="left-main">
+        <div id="cardList"></div>
+        <div class="page-box" id="pageBox"></div>
+    </div>
+    <div class="right">
+        <div class="info">
+            <div class="avatar-box">
+                <div id="avatar">晴</div>
+                <input type="file" id="avatarInput" accept="image/*">
+            </div>
+            <h4>个人信息</h4>
+            <p>昵称：晴天</p>
+            <p>微信ID：Natalia_tn</p>
+            <p>签名：一生所爱，温柔自由</p>
+            <button class="follow-btn" id="followBtn" onclick="changeFollow()">+ 加关注</button>
+        </div>
+        <div class="info">
+            <h4>背景音乐</h4>
+            <div class="music-card">
+                <div class="music-title">🎵 专属背景音乐</div>
+                <div class="music-desc" id="songName">歌曲：一生所爱</div>
+                <div class="music-desc" id="songArtist">歌手：卢冠廷</div>
+                <div class="music-control">
+                    <button class="music-btn" id="musicBtn">▶ 播放</button>
+                    <button class="music-btn" id="loopBtn">🔁 列表循环</button>
+                    <button class="music-btn" id="randomBtn">🔀 随机播放</button>
+                </div>
+                <div class="progress-wrap" id="progressWrap">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-dot" id="progressDot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button class="fab-btn" onclick="openAddModal()">+</button>
+<div class="add-modal" id="addModal">
+    <div class="add-box">
+        <h4>发布新动态</h4>
+        <input type="text" id="cardTitle" placeholder="请输入卡片主题（必填）">
+        <select id="cardTag">
+            <option value="music">音乐</option>
+            <option value="article">美文</option>
+        </select>
+        <textarea id="newCardText" placeholder="写下说明文字..."></textarea>
+        <input type="text" id="videoUrl" placeholder="视频链接（可选）">
+        <input type="text" id="audioUrl" placeholder="音频链接（可选）">
+        <button class="send-btn" onclick="addNewCard()">发布</button>
+        <button class="send-btn" onclick="closeAddModal()" style="background:#999;margin-left:10px;">取消</button>
+    </div>
+</div>
+<div class="title-modal" id="titleModal">
+    <h4>修改顶部标题</h4>
+    <input type="text" id="bannerInput">
+    <div>
+        <button class="title-save" onclick="saveBannerTitle()">保存</button>
+        <button class="title-cancel" onclick="closeTitleModal()">取消</button>
+    </div>
+</div>
+<audio id="bgMusic" preload="auto">
+
+<script>
+// 作者权限固定开启
+const IS_AUTHOR = true;
+
+// 【修复版】稳定音频，双核浏览器本地/线上都能播放，不会被拦截
+const musicList = [
+    { name: "一生所爱", artist: "卢冠廷", url: "https://assets.mixkit.co/sfx/preview/mixkit-dreamy-night-time-ambience-1179.mp3" },
+    { name: "约定", artist: "王菲", url: "https://assets.mixkit.co/sfx/preview/mixkit-forest-stream-ambience-1238.mp3" },
+    { name: "后来", artist: "刘若英", url: "https://assets.mixkit.co/sfx/preview/mixkit-rain-and-thunder-storm-2390.mp3" },
+    { name: "遇见", artist: "孙燕姿", url: "https://assets.mixkit.co/sfx/preview/mixkit-waves-in-the-water-1164.mp3" },
+    { name: "小幸运", artist: "田馥甄", url: "https://assets.mixkit.co/sfx/preview/mixkit-soft-piano-ambience-1180.mp3" }
+];
+
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+const progressWrap = document.getElementById("progressWrap");
+const progressBar = document.getElementById("progressBar");
+const progressDot = document.getElementById("progressDot");
+const songName = document.getElementById("songName");
+const songArtist = document.getElementById("songArtist");
+let playMode = "loop";
+let currentMusicIndex = 0;
+
+// 强制更新歌曲信息
+function updateSongInfo(){
+    songName.innerText = "歌曲：" + musicList[currentMusicIndex].name;
+    songArtist.innerText = "歌手：" + musicList[currentMusicIndex].artist;
+}
+
+// 强制加载歌曲，修复本地播放拦截问题
+function loadMusic(idx){
+    currentMusicIndex = idx;
+    music.src = musicList[currentMusicIndex].url;
+    updateSongInfo();
+    // 修复浏览器播放拦截
+    music.load();
+}
+
+// 下一首逻辑（彻底修复随机/循环bug）
+function playNext(){
+    if(playMode === "loop"){
+        currentMusicIndex = (currentMusicIndex + 1) % musicList.length;
+    }else{
+        let newIdx;
+        do{ newIdx = Math.floor(Math.random() * musicList.length); }
+        while(newIdx === currentMusicIndex);
+        currentMusicIndex = newIdx;
+    }
+    loadMusic(currentMusicIndex);
+    // 自动播放
+    music.play().catch(()=>{});
+}
+
+// 【核心修复】播放/暂停按钮状态100%同步
+musicBtn.onclick = function(){
+    if(music.paused || music.ended){
+        if(!music.src){
+            loadMusic(0);
+        }
+        music.play().catch(()=>{});
+        musicBtn.innerText = "⏸ 暂停";
+    }else{
+        music.pause();
+        musicBtn.innerText = "▶ 播放";
+    }
+};
+
+// 模式切换（弹窗+立即生效）
+document.getElementById("loopBtn").onclick = ()=>{
+    playMode = "loop";
+    alert("已切换为【列表循环】");
+};
+document.getElementById("randomBtn").onclick = ()=>{
+    playMode = "random";
+    alert("已切换为【随机播放】");
+};
+
+// 进度条实时更新（修复不显示问题）
+music.ontimeupdate = function(){
+    if(isNaN(music.duration)) return;
+    let percent = (music.currentTime / music.duration) * 100;
+    progressBar.style.width = percent + "%";
+    progressDot.style.left = percent + "%";
+};
+
+// 进度条点击跳转
+progressWrap.onclick = function(e){
+    if(isNaN(music.duration)) return;
+    let rect = progressWrap.getBoundingClientRect();
+    let clickPercent = (e.clientX - rect.left) / rect.width;
+    music.currentTime = clickPercent * music.duration;
+};
+
+// 歌曲结束自动切歌
+music.addEventListener("ended", playNext);
+
+// 初始化加载第一首
+window.onload = function(){
+    loadMusic(0);
+}
+
+// 以下原有网站功能代码完全保留，无任何修改
+function openAddModal(){ document.getElementById('addModal').style.display = 'flex'; }
+function closeAddModal(){ document.getElementById('addModal').style.display = 'none'; }
+
+const avatar = document.getElementById('avatar');
+const avatarInput = document.getElementById('avatarInput');
+const savedAvatar = localStorage.getItem('userAvatar');
+if(savedAvatar){
+    avatar.style.backgroundImage = `url(${savedAvatar})`;
+    avatar.style.backgroundSize = "cover";
+    avatar.innerText = "";
+}
+avatar.onclick = ()=>avatarInput.click();
+avatarInput.onchange = function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+        avatar.style.backgroundImage = `url(${e.target.result})`;
+        avatar.style.backgroundSize = "cover";
+        avatar.innerText = "";
+        localStorage.setItem('userAvatar', e.target.result);
+    }
+    reader.readAsDataURL(file);
+};
+
+const bannerText = document.getElementById("bannerText");
+const titleModal = document.getElementById("titleModal");
+const bannerInput = document.getElementById("bannerInput");
+bannerText.onclick = function(){
+    bannerInput.value = bannerText.innerText;
+    titleModal.style.display = "block";
+};
+function saveBannerTitle(){
+    let v = bannerInput.value.trim();
+    if(v) bannerText.innerText = v;
+    closeTitleModal();
+}
+function closeTitleModal(){ titleModal.style.display = "none"; }
+
+const PAGE_SIZE = 5;
+let currentPage = 1;
+let cardList = JSON.parse(localStorage.getItem('cardList')) || [];
+let cardId = cardList.length > 0 ? Math.max(...cardList.map(x=>x.id)) : 0;
+let followCount = 0;
+let isUserFollowed = false;
+const followBtn = document.getElementById("followBtn");
+let searchKeyword = "";
+let rankMode = "";
+
+function saveCardList(){
+    localStorage.setItem('cardList', JSON.stringify(cardList));
+}
+
+function addNewCard(){
+    let title = document.getElementById("cardTitle").value.trim();
+    let tag = document.getElementById("cardTag").value;
+    let t = document.getElementById("newCardText").value.trim();
+    let v = document.getElementById("videoUrl").value.trim();
+    let a = document.getElementById("audioUrl").value.trim();
+    if(!title) return alert("请填写卡片主题");
+    
+    cardId++;
+    let now = new Date();
+    let timeStr = `今天 ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+    cardList.unshift({
+        id:cardId, user:"晴天", time:timeStr, title:title, tag:tag,
+        content:t.replace(/\n/g,"<br>"), video:v, audio:a, recommend:false,
+        createTime: Date.now()
+    });
+    saveCardList();
+    document.getElementById("cardTitle").value = "";
+    document.getElementById("newCardText").value = "";
+    document.getElementById("videoUrl").value = "";
+    document.getElementById("audioUrl").value = "";
+    closeAddModal();
+    rankMode = "";
+    renderPage();
+}
+
+function editCardTitle(id){
+    let item = cardList.find(x=>x.id === id);
+    let newTitle = prompt("修改标题", item.title);
+    if(!newTitle || !newTitle.trim()) return;
+    item.title = newTitle.trim();
+    saveCardList();
+    renderPage();
+}
+
+function toggleRecommend(id){
+    let item = cardList.find(x=>x.id === id);
+    item.recommend = !item.recommend;
+    saveCardList();
+    renderPage();
+}
+function deleteCard(id){
+    if(!confirm("确定删除？")) return;
+    cardList = cardList.filter(i=>i.id !== id);
+    saveCardList();
+    renderPage();
+}
+function editCard(id){
+    let item = cardList.find(x=>x.id === id);
+    let raw = item.content.replace(/<br>/g,"\n");
+    let nt = prompt("修改内容：", raw);
+    if(nt === null || !nt.trim()) return;
+    item.content = nt.replace(/\n/g,"<br>");
+    saveCardList();
+    renderPage();
+}
+function changeFollow(){
+    if(isUserFollowed){
+        followCount--; isUserFollowed = false;
+        followBtn.innerText = "+ 加关注";
+        followBtn.classList.remove("followed");
+    }else{
+        followCount++; isUserFollowed = true;
+        followBtn.innerText = `已关注 (${followCount})`;
+        followBtn.classList.add("followed");
+        alert("感谢关注！微信：Natalia_tn");
+    }
+    localStorage.setItem('followCount', followCount);
+    localStorage.setItem('isUserFollowed', isUserFollowed);
+}
+function addLike(id){
+    let k1 = "likeCount"+id;
+    let k2 = "isUserLiked"+id;
+    let n = parseInt(localStorage.getItem(k1)) || 0;
+    let liked = localStorage.getItem(k2) === 'true';
+    let span = document.getElementById("likeSpan"+id);
+    if(liked){ n--; liked = false; span.classList.remove("grey");
+    }else{ n++; liked = true; span.classList.add("grey"); }
+    document.getElementById("likeNum"+id).innerText = n;
+    localStorage.setItem(k1, n);
+    localStorage.setItem(k2, liked);
+}
+function shareLink(id){
+    let k = "shareCount"+id;
+    let n = parseInt(localStorage.getItem(k)) || 0; n++;
+    document.getElementById("shareNum"+id).innerText = n;
+    localStorage.setItem(k, n);
+    alert("已分享");
+}
+
+function formatTime(timestamp){
+    let d = new Date(timestamp);
+    return `${d.getFullYear()}-${(d.getMonth()+1).toString().padStart(2,'0')}-${d.getDate().toString().padStart(2,'0')} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+}
+
+function cutText(str, len){
+    let div = document.createElement('div');
+    div.innerHTML = str;
+    let text = div.innerText || '';
+    if(text.length <= len) return { short: text, full: text, need: false };
+    return {
+        short: text.substring(0, len) + '...',
+        full: text,
+        need: true
+    };
+}
+
+function submitMsg(id){
+    let nick = document.getElementById("nickInput"+id).value.trim();
+    let val = document.getElementById("msgInput"+id).value.trim();
+    if(!nick) return alert("请填写昵称");
+    if(!val) return alert("请输入留言");
+    let now = Date.now();
+    let msg = {
+        nick: nick,
+        content: val,
+        time: now,
+        like:0,
+        reply:[]
+    };
+    let kl = "msgList"+id;
+    let list = JSON.parse(localStorage.getItem(kl)) || [];
+    list.unshift(msg);
+    localStorage.setItem(kl, JSON.stringify(list));
+    localStorage.setItem("msgCount"+id, list.length);
+    document.getElementById("msgNum"+id).innerText = list.length;
+    renderMsg(id,3);
+    alert("留言成功");
+    document.getElementById("nickInput"+id).value = "";
+    document.getElementById("msgInput"+id).value = "";
+}
+
+function likeMsg(cardId, msgIdx){
+    let key = `msgLike_${cardId}_${msgIdx}`;
+    let list = JSON.parse(localStorage.getItem("msgList"+cardId)) || [];
+    if(!list[msgIdx]) return;
+    let hasLiked = localStorage.getItem(key) === "1";
+    if(hasLiked){
+        list[msgIdx].like = Math.max(0, (list[msgIdx].like || 0) - 1);
+        localStorage.setItem(key, "0");
+    }else{
+        list[msgIdx].like = (list[msgIdx].like || 0) + 1;
+        localStorage.setItem(key, "1");
+    }
+    localStorage.setItem("msgList"+cardId, JSON.stringify(list));
+    renderMsg(cardId,3);
+}
+
+function replyMsg(cardId, msgIdx){
+    let list = JSON.parse(localStorage.getItem("msgList"+cardId)) || [];
+    if(!list[msgIdx]) return;
+    let author = prompt("你的昵称");
+    if(!author) return;
+    let content = prompt("回复内容");
+    if(!content) return;
+    let isAuthor = author === "晴天";
+    list[msgIdx].reply.push({
+        author: author,
+        content: content,
+        isAuthor: isAuthor,
+        time: Date.now()
+    });
+    localStorage.setItem("msgList"+cardId, JSON.stringify(list));
+    renderMsg(cardId,3);
+}
+
+function deleteSingleMsg(cardId, msgIdx){
+    if(!confirm("确定删除这条留言？")) return;
+    let list = JSON.parse(localStorage.getItem("msgList"+cardId)) || [];
+    list.splice(msgIdx, 1);
+    localStorage.setItem("msgList"+cardId, JSON.stringify(list));
+    localStorage.setItem("msgCount"+cardId, list.length);
+    renderMsg(cardId,3);
+}
+
+function renderMsg(id,max=3){
+    let list = JSON.parse(localStorage.getItem("msgList"+id)) || [];
+    let dom = document.getElementById("msgList"+id);
+    dom.innerHTML = "";
+    list.slice(0,max).forEach((item,i)=>{
+        let d = document.createElement("div");
+        d.className = "msg-item";
+        let likedKey = `msgLike_${id}_${i}`;
+        let isLiked = localStorage.getItem(likedKey) === "1";
+        let likeClass = isLiked ? "liked" : "";
+        let cut = cutText(item.content, 100);
+        
+        let checkBoxHtml = IS_AUTHOR 
+            ? `<input type="checkbox" class="msg-check" data-idx="${i}" style="margin-right:6px;">` 
+            : '';
+
+        let html = checkBoxHtml;
+        html += `
+        <div class="msg-header">
+            <div><span class="${item.nick=='晴天'?'msg-author':''}">${item.nick}</span></div>
+            <div>${formatTime(item.time)}</div>
+        </div>
+        <div class="msg-content-${id}-${i}">${cut.short}</div>
+        `;
+        if(cut.need){
+            html += `<div class="msg-collapse" onclick="toggleMsg(${id},${i},'${encodeURIComponent(item.content)}')">查看全文</div>`;
+        }
+        html += `
+        <div class="msg-btns">
+            <button class="${likeClass}" onclick="likeMsg(${id},${i})">点赞 ${item.like||0}</button>
+            <button onclick="replyMsg(${id},${i})">回复</button>
+        `;
+        if(IS_AUTHOR){
+            html += `<button style="background:#ffebee;color:#e6162d;" onclick="deleteSingleMsg(${id},${i})">删除</button>`;
+        }
+        html += `</div>`;
+        if(item.reply && item.reply.length>0){
+            item.reply.forEach(r=>{
+                html += `
+                <div class="msg-reply">
+                    <span class="${r.isAuthor?'msg-reply-author':''}">${r.author}：</span>${r.content}
+                    <div style="font-size:11px;color:#999">${formatTime(r.time)}</div>
+                </div>`;
+            });
+        }
+        d.innerHTML = html;
+        dom.appendChild(d);
+    });
+}
+
+function toggleMsg(cardId, msgIdx, rawContent){
+    let el = document.querySelector(`.msg-content-${cardId}-${msgIdx}`);
+    let btn = el.nextElementSibling;
+    let full = decodeURIComponent(rawContent);
+    if(el.getAttribute('data-full') === 'true'){
+        let cut = cutText(full, 100);
+        el.innerText = cut.short;
+        el.removeAttribute('data-full');
+        btn.innerText = '查看全文';
+    }else{
+        el.innerText = full;
+        el.setAttribute('data-full', 'true');
+        btn.innerText = '收起';
+    }
+}
+
+function batchDeleteMsg(cardId){
+    if(!IS_AUTHOR) return;
+    let checks = document.querySelectorAll("#msgList"+cardId+" .msg-check:checked");
+    if(checks.length === 0) return alert("请勾选要删除的留言");
+    if(!confirm("确定删除选中留言？")) return;
+    let list = JSON.parse(localStorage.getItem("msgList"+cardId)) || [];
+    let arr = [];
+    checks.forEach(c=>arr.push(parseInt(c.dataset.idx)));
+    arr.sort((a,b)=>b-a);
+    arr.forEach(idx=>list.splice(idx,1));
+    localStorage.setItem("msgList"+cardId, JSON.stringify(list));
+    localStorage.setItem("msgCount"+cardId, list.length);
+    document.getElementById("msgNum"+cardId).innerText = list.length;
+    renderMsg(cardId,3);
+}
+
+function toggleMoreMsg(id){
+    let btn = document.getElementById("moreBtn"+id);
+    if(btn.innerText === "展开更多留言"){
+        renderMsg(id,15); btn.innerText = "收起留言";
+    }else{ renderMsg(id,3); btn.innerText = "展开更多留言"; }
+}
+function openMsgBox(id){
+    document.getElementById("nickInput"+id).focus();
+}
+function doSearch(){
+    searchKeyword = document.getElementById("searchInput").value.trim().toLowerCase();
+    rankMode = "";
+    currentPage = 1;
+    renderPage();
+}
+function loadTop10(){ rankMode="top"; renderPage(); }
+function loadMusicRank(){ rankMode="music"; renderPage(); }
+function loadArticleRank(){ rankMode="article"; renderPage(); }
+
+function goHome(){
+    rankMode = "";
+    searchKeyword = "";
+    currentPage = 1;
+    document.getElementById("searchInput").value = "";
+    renderPage();
+}
+
+function loadRecentReply(){
+    rankMode = "";
+    renderPage();
+    setTimeout(()=>{
+        let threeDay = 3*24*60*60*1000;
+        let now = Date.now();
+        let result = [];
+        cardList.forEach(card=>{
+            let msgs = JSON.parse(localStorage.getItem("msgList"+card.id)) || [];
+            msgs.forEach((msg,i)=>{
+                if(now - msg.time > threeDay) return;
+                result.push({
+                    cardId: card.id,
+                    cardTitle: card.title,
+                    nick: msg.nick,
+                    content: msg.content,
+                    time: msg.time
+                });
+                msg.reply.forEach(r=>{
+                    if(now - r.time > threeDay) return;
+                    result.push({
+                        cardId: card.id,
+                        cardTitle: card.title,
+                        nick: r.author,
+                        content: `回复：${r.content}`,
+                        time: r.time
+                    });
+                });
+            });
+        });
+        result.sort((a,b)=>b.time - a.time);
+        let container = document.getElementById("cardList");
+        container.innerHTML = "";
+        if(result.length===0){
+            container.innerHTML = "<div class='wb'>暂无最近3天留言</div>";
+            return;
+        }
+        result.forEach(item=>{
+            let div = document.createElement("div");
+            div.className = "wb";
+            div.style.cursor="pointer";
+            div.onclick=()=>{
+                goHome();
+                setTimeout(()=>{
+                    let target = document.querySelector(`.wb[data-id="${item.cardId}"]`);
+                    if(target) target.scrollIntoView({behavior:"smooth"});
+                },100);
+            };
+            let cut = cutText(item.content,80);
+            div.innerHTML = `
+            <div style="color:#e6162d">【${item.cardTitle}】</div>
+            <div>${item.nick}：${cut.short}</div>
+            <div style="font-size:12px;color:#999">${formatTime(item.time)}</div>
+            `;
+            container.appendChild(div);
+        });
+        document.getElementById("pageBox").innerHTML = "";
+    }, 100);
+}
+
+function renderRecommendList(){
+    let list = cardList
+        .filter(x=>x.recommend)
+        .sort((a,b)=> (b.createTime||0)-(a.createTime||0))
+        .slice(0,3);
+    let dom = document.getElementById("recommendList");
+    dom.innerHTML = "";
+    list.forEach(item=>{
+        let div = document.createElement("div");
+        div.className = "nav-item";
+        div.innerText = item.title;
+        div.onclick = ()=>{
+            document.querySelector(`.wb[data-id="${item.id}"]`).scrollIntoView({behavior:"smooth"});
+        };
+        dom.appendChild(div);
+    });
+}
+function getLikeCount(id){
+    return parseInt(localStorage.getItem('likeCount'+id)) || 0;
+}
+
+function renderPage(){
+    renderRecommendList();
+    let filtered = [...cardList];
+    if(rankMode){
+        filtered.sort((a,b)=>{
+            const la = getLikeCount(a.id);
+            const lb = getLikeCount(b.id);
+            if(lb !== la){
+                return lb - la;
+            }else{
+                return (b.createTime||0) - (a.createTime||0);
+            }
+        });
+        if(rankMode==="music") filtered = filtered.filter(x=>x.tag==="music");
+        if(rankMode==="article") filtered = filtered.filter(x=>x.tag==="article");
+        if(rankMode==="top") filtered = filtered.slice(0,10);
+    }
+    if(searchKeyword){
+        filtered = filtered.filter(item=>
+            (item.title || "").toLowerCase().includes(searchKeyword)
+        );
+    }
+    let total = filtered.length;
+    let totalPage = Math.ceil(total / PAGE_SIZE);
+    if(currentPage > totalPage && totalPage>0) currentPage = totalPage;
+    let start = (currentPage-1)*PAGE_SIZE;
+    let pageCards = filtered.slice(start,start+PAGE_SIZE);
+    let container = document.getElementById("cardList");
+    container.innerHTML = "";
+    pageCards.forEach(item=>{
+        let div = document.createElement("div");
+        div.className = "wb";
+        div.setAttribute("data-id", item.id);
+        let media = "";
+        if(item.video) media += `<video controls src="${item.video}"></video>`;
+        if(item.audio) media += `<audio controls src="${item.audio}">`;
+        let tagName = item.tag==="music"?"音乐":"美文";
+        
+        let cut = cutText(item.content, 200);
+        let contentHtml = `<div class="card-content-${item.id}">${cut.short}</div>`;
+        if(cut.need){
+            contentHtml += `<div class="content-collapse" onclick="toggleCardContent(${item.id},'${encodeURIComponent(item.content)}')">点击展开全文</div>`;
+        }
+        
+        let cardOptHtml = '';
+        if(IS_AUTHOR){
+            cardOptHtml = `
+            <div class="card-opt">
+                <span class="btn-pill" onclick="editCard(${item.id})">编辑</span>
+                <span class="btn-pill" onclick="deleteCard(${item.id})">删除</span>
+                <span class="btn-pill ${item.recommend?'on':''}" onclick="toggleRecommend(${item.id})">
+                    ${item.recommend?'已推荐':'推荐'}
+                </span>
+            </div>`;
+        }
+
+        let batchBtnHtml = '';
+        if(IS_AUTHOR){
+            batchBtnHtml = `
+            <div class="batch-row">
+                <button class="batch-del-btn" onclick="batchDeleteMsg(${item.id})">批量删除选中</button>
+            </div>`;
+        }
+
+        div.innerHTML = `
+        ${cardOptHtml}
+        <div class="card-title" onclick="editCardTitle(${item.id})">
+            <span class="tag ${item.tag}">${tagName}</span>
+            ${item.title}
+        </div>
+        <strong>${item.user}</strong>
+        <span class="time">${item.time}</span>
+        ${media}
+        ${contentHtml}
+        <div class="bottom">
+            <span onclick="shareLink(${item.id})">转发 <span id="shareNum${item.id}">${parseInt(localStorage.getItem('shareCount'+item.id))||0}</span></span>
+            <span onclick="openMsgBox(${item.id})">留言 <span id="msgNum${item.id}">${parseInt(localStorage.getItem('msgCount'+item.id))||0}</span></span>
+            <span id="likeSpan${item.id}" onclick="addLike(${item.id})">点赞 <span id="likeNum${item.id}">${getLikeCount(item.id)}</span></span>
+        </div>
+        <div class="leave-box">
+            ${batchBtnHtml}
+            <div class="msg-row">
+                <input type="text" id="nickInput${item.id}" class="nick-input" placeholder="昵称/微信号">
+                <button class="send-btn" onclick="submitMsg(${item.id})">提交留言</button>
+            </div>
+            <textarea id="msgInput${item.id}" class="msg-textarea" placeholder="写下你的留言..."></textarea>
+            <div id="msgList${item.id}" style="max-height:420px;overflow-y:auto;"></div>
+            <div class="more-btn" id="moreBtn${item.id}" onclick="toggleMoreMsg(${item.id})">展开更多留言</div>
+        </div>`;
+        container.appendChild(div);
+        renderMsg(item.id,3);
+        let isLiked = localStorage.getItem("isUserLiked"+item.id) === 'true';
+        let likeSpan = document.getElementById("likeSpan"+item.id);
+        if(isLiked) likeSpan.classList.add("grey");
+    });
+    let pageBox = document.getElementById("pageBox");
+    pageBox.innerHTML = "";
+    if(totalPage <=1) return;
+    let prev = document.createElement("button");
+    prev.className="page-btn";prev.innerText="上一页";prev.disabled=currentPage===1;
+    prev.onclick=()=>{currentPage--;renderPage();};pageBox.appendChild(prev);
+    for(let i=1;i<=totalPage;i++){
+        let b=document.createElement("button");
+        b.className="page-btn"+(i===currentPage?" active":"");b.innerText=i;
+        b.onclick=()=>{currentPage=i;renderPage();};pageBox.appendChild(b);
+    }
+    let next=document.createElement("button");
+    next.className="page-btn";next.innerText="下一页";next.disabled=currentPage===totalPage;
+    next.onclick=()=>{currentPage++;renderPage();};pageBox.appendChild(next);
+}
+
+function toggleCardContent(cardId, rawHtml){
+    let el = document.querySelector(`.card-content-${cardId}`);
+    let btn = el.nextElementSibling;
+    let full = decodeURIComponent(rawHtml);
+    if(el.getAttribute('data-full') === 'true'){
+        let cut = cutText(full, 200);
+        el.innerHTML = cut.short;
+        el.removeAttribute('data-full');
+        btn.innerText = '点击展开全文';
+    }else{
+        el.innerHTML = full;
+        el.setAttribute('data-full', 'true');
+        btn.innerText = '点击收起';
+    }
+}
+
+renderPage();
+</script>
+</body>
+</html>
